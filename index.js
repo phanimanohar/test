@@ -13,7 +13,7 @@ const razorpayroute=require('./routes/razorpay')
 const reviewroute=require('./routes/reviews')
 const promocoderoute=require('./routes/promocodes')
 
-mongoose.connect('mongodb://localhost:27017',{ useUnifiedTopology: true , useNewUrlParser: true , useFindAndModify:true }).then(()=>console.log('db is connected ')).catch((err)=>console.log(`db is failed ${err}`))
+mongoose.connect(process.env.MONGODBURL,{ useUnifiedTopology: true , useNewUrlParser: true , useFindAndModify:true }).then(()=>console.log('db is connected ')).catch((err)=>console.log(`db is failed ${err}`))
 
 // //middleware  
 app.use(express.json());
@@ -33,24 +33,6 @@ app.get('/',(req,res)=>{
 
 })
 
-const multer = require('multer');
-
-
-// multer fo single file
-var storage = multer.diskStorage({
-    destination: "./uploads/",
-    filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-  });
-
-var upload = multer({ storage:storage })
-
-
-app.post('/image',upload.single("file"),(req,res)=>{
-    res.send()
-
-})
 
 const PORT = process.env.PORT || 8000
 app.listen(PORT,()=>{
